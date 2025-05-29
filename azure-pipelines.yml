@@ -12,3 +12,10 @@ steps:
   inputs:
     gradleWrapperFile: 'gradlew'
     tasks: 'build'
+
+- task: Gradle@4
+  displayName: 'Gradle Dockerize'
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    tasks: 'dockerize'
+    options: '-Ppersistence=true'
