@@ -6,6 +6,9 @@ pool:
   demands:
   - Agent.Name -equals masterhora2
 
+variables: 
+  dockerRegistry: 'localhost:5000'
+
 steps:
 - task: Gradle@4
   displayName: 'Gradle Build'
@@ -19,3 +22,33 @@ steps:
     gradleWrapperFile: 'gradlew'
     tasks: 'dockerize'
     options: '-Ppersistence=true'
+
+- script: |
+    docker tag sts:latest $(dockerRegistry)/sts:latest
+    docker push $(dockerRegistry)/sts:latest
+  displayName: 'Push sts docker image to docker registry'
+
+- script: |
+    docker tag identity-hub:latest $(dockerRegistry)/identity-hub:latest
+    docker push $(dockerRegistry)/identity-hub:latest
+  displayName: 'Push identity hub docker image to docker registry'
+
+- script: |
+    docker tag catalog-server:latest $(dockerRegistry)/catalog-server:latest
+    docker push $(dockerRegistry)/catalog-server:latest
+  displayName: 'Push catalog server docker image to docker registry'
+
+- script: |
+    docker tag controlplane:latest $(dockerRegistry)/controlplane:latest
+    docker push $(dockerRegistry)/controlplane:latest
+  displayName: 'Push controlplane docker image to docker registry'
+
+- script: |
+    docker tag dataplane:latest $(dockerRegistry)/dataplane:latest
+    docker push $(dockerRegistry)/dataplane:latest
+  displayName: 'Push dataplane docker image to docker registry'
+
+- script: |
+    docker system prune -a -f
+  displayName: 'Cleanup local docker'
+  condition: always()
