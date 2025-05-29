@@ -31,7 +31,7 @@ DATA_PROVIDER=$(jq -n --arg url "$PROVIDER_CATALOG_SERVER_URL" --arg ihurl "$PRO
            "serviceEndpoints":[
              {
                 "type": "CredentialService",
-                "serviceEndpoint": "\($ihurl)/api/presentation/v1/participants/ZGlkOndlYjoxOTIuMTY4LjEuMTAyJTNBNzA4Mzpwcm92aWRlcg==",
+                "serviceEndpoint": "\($ihurl)/api/presentation/v1/participants/ZGlkOndlYjoxMC4wLjQwLjE3MiUzQTcwODM6cHJvdmlkZXI=",
                 "id": "provider-credentialservice-1"
              },
              {
