@@ -7,5 +7,8 @@ pool:
   - Agent.Name -equals masterhora2
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: Gradle@4
+  displayName: 'Gradle Build'
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    tasks: 'build'
