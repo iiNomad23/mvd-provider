@@ -1,0 +1,120 @@
+services:
+  postgres:
+    image: postgres:16.3-alpine3.20
+    container_name: provider-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./postgres-initdb-config.sql:/docker-entrypoint-initdb.d/postgres-initdb-config.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 120s
+    networks:
+      - mvd
+
+  vault:
+    image: hashicorp/vault:latest
+    container_name: provider-vault
+    restart: always
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "root"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+      VAULT_ADDR: "http://localhost:8200"
+    ports:
+      - "8200:8200"
+    cap_add:
+      - IPC_LOCK
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - vault server -dev
+    healthcheck:
+      test: ["CMD", "vault", "status"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 120s
+    networks:
+      - mvd
+
+  sts:
+    image: sts:latest
+    depends_on:
+      vault:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  identity-hub:
+    image: identity-hub:latest
+    depends_on:
+      vault:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  catalog-server:
+    image: catalog-server:latest
+    depends_on:
+      vault:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  qna-connector-controlplane:
+    image: controlplane:latest
+    depends_on:
+      vault:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  qna-connector-dataplane:
+    image: dataplane:latest
+    depends_on:
+      vault:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  manufacturing-connector-controlplane:
+    image: controlplane:latest
+    depends_on:
+      vault:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  manufacturing-connector-dataplane:
+    image: dataplane:latest
+    depends_on:
+      vault:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  dummy-service:
+    image: dummy-service:latest
+    container_name: provider-dummy-service
+    build:
+      context: ./external/dummy-service
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://dummyuser:dummy-user@provider-postgres:5432/dummydb
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - mvd
+
+networks:
+  mvd:
+    name: mvd
+    external: false
