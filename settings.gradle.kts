@@ -37,10 +37,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "mvd-provider"
 include(":extensions:did-example-resolver")
-include(":extensions:catalog-node-resolver")
 include(":extensions:dcp-impl")
 include(":extensions:superuser-seed")
-include(":extensions:data-plane-csv")
 //include(":tests:performance")
 include(":tests:end2end")
 
@@ -48,6 +46,5 @@ include(":tests:end2end")
 include(":launchers:identity-hub")
 include(":launchers:controlplane")
 include(":launchers:dataplane")
-include(":launchers:runtime-embedded")
 include(":launchers:catalog-server")
 include(":launchers:sts")
