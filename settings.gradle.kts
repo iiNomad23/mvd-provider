@@ -37,6 +37,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "mvd-provider"
 include(":extensions:did-example-resolver")
+include(":extensions:catalog-node-resolver")
 include(":extensions:dcp-impl")
 include(":extensions:superuser-seed")
 //include(":tests:performance")

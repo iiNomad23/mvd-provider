@@ -110,6 +110,7 @@ services:
       - EDC_PARTICIPANT_ID=did:web:10.0.40.172%3A7083:provider
       - EDC_VAULT_HASHICORP_URL=http://provider-vault:8200
       - EDC_VAULT_HASHICORP_TOKEN=root
+      - EDC_MVD_PARTICIPANTS_LIST_FILE=/etc/participants/participants.json
       - EDC_DATASOURCE_DEFAULT_URL=jdbc:postgresql://provider-postgres:5432/catalog_server
       - EDC_DATASOURCE_DEFAULT_USER=catalog_server
       - EDC_DATASOURCE_DEFAULT_PASSWORD=catalog_server
@@ -129,6 +130,8 @@ services:
       timeout: 120s
       retries: 10
       start_period: 5s
+    volumes:
+      - ./deployment/assets/participants.json:/etc/participants/participants.json
     depends_on:
       sts:
         condition: service_healthy
@@ -163,6 +166,7 @@ services:
       - EDC_IH_AUDIENCE_REGISTRY_PATH=/etc/registry/registry.json
       - EDC_VAULT_HASHICORP_URL=http://provider-vault:8200
       - EDC_VAULT_HASHICORP_TOKEN=root
+      - EDC_MVD_PARTICIPANTS_LIST_FILE=/etc/participants/participants.json
       - EDC_CATALOG_CACHE_EXECUTION_DELAY_SECONDS=10
       - EDC_CATALOG_CACHE_EXECUTION_PERIOD_SECONDS=10
       - EDC_DATASOURCE_DEFAULT_URL=jdbc:postgresql://provider-postgres:5432/provider_qna
@@ -185,6 +189,8 @@ services:
       timeout: 120s
       retries: 10
       start_period: 5s
+    volumes:
+      - ./deployment/assets/participants.json:/etc/participants/participants.json
     depends_on:
       sts:
         condition: service_healthy
@@ -265,6 +271,7 @@ services:
       - EDC_IH_AUDIENCE_REGISTRY_PATH=/etc/registry/registry.json
       - EDC_VAULT_HASHICORP_URL=http://provider-vault:8200
       - EDC_VAULT_HASHICORP_TOKEN=root
+      - EDC_MVD_PARTICIPANTS_LIST_FILE=/etc/participants/participants.json
       - EDC_CATALOG_CACHE_EXECUTION_DELAY_SECONDS=10
       - EDC_CATALOG_CACHE_EXECUTION_PERIOD_SECONDS=10
       - EDC_DATASOURCE_DEFAULT_URL=jdbc:postgresql://provider-postgres:5432/provider_manufacturing
@@ -287,6 +294,8 @@ services:
       timeout: 120s
       retries: 10
       start_period: 5s
+    volumes:
+      - ./deployment/assets/participants.json:/etc/participants/participants.json
     depends_on:
       sts:
         condition: service_healthy

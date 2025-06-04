@@ -21,6 +21,7 @@ plugins {
 dependencies {
     runtimeOnly(project(":extensions:did-example-resolver"))
     runtimeOnly(project(":extensions:dcp-impl")) // some patches/impls for DCP
+    runtimeOnly(project(":extensions:catalog-node-resolver")) // to trigger the federated catalog
     runtimeOnly(libs.edc.bom.controlplane)
 
     if (project.properties.getOrDefault("persistence", "false") == "true") {
