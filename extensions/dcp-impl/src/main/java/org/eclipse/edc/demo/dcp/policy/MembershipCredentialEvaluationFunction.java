@@ -22,8 +22,10 @@ import org.eclipse.edc.policy.model.Permission;
 import java.time.Instant;
 import java.util.Map;
 
+import static org.eclipse.edc.demo.dcp.policy.PolicyEvaluationExtension.MEMBERSHIP_CONSTRAINT_KEY;
+
 public class MembershipCredentialEvaluationFunction<C extends ParticipantAgentPolicyContext> extends AbstractCredentialEvaluationFunction implements AtomicConstraintRuleFunction<Permission, C> {
-    public static final String MEMBERSHIP_CONSTRAINT_KEY = "MembershipCredential";
+
 
     private static final String MEMBERSHIP_CLAIM = "membership";
     private static final String SINCE_CLAIM = "since";

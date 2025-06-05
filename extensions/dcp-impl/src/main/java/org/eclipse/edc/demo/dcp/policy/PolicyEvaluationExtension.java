@@ -27,7 +27,6 @@ import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 
-import static org.eclipse.edc.demo.dcp.policy.MembershipCredentialEvaluationFunction.MEMBERSHIP_CONSTRAINT_KEY;
 import static org.eclipse.edc.policy.model.OdrlNamespace.ODRL_SCHEMA;
 
 public class PolicyEvaluationExtension implements ServiceExtension {
@@ -38,15 +37,20 @@ public class PolicyEvaluationExtension implements ServiceExtension {
     @Inject
     private RuleBindingRegistry ruleBindingRegistry;
 
+    public static final String MEMBERSHIP_CONSTRAINT_KEY = "MembershipCredential";
+    private static final String ORGANIZATION_LOCATION_KEY = "Organization.location";
+
     @Override
     public void initialize(ServiceExtensionContext context) {
-
         bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
         bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
         bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
 
-        registerDataAccessLevelFunction();
+        bindPermissionFunction(OrganizationLocationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, ORGANIZATION_LOCATION_KEY);
+        bindPermissionFunction(OrganizationLocationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, ORGANIZATION_LOCATION_KEY);
+        bindPermissionFunction(OrganizationLocationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, ORGANIZATION_LOCATION_KEY);
 
+        registerDataAccessLevelFunction();
     }
 
     private void registerDataAccessLevelFunction() {
