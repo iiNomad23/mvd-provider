@@ -261,7 +261,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-size\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"leftOperand\": \"Organization.size\",\r\n                    \"operator\": \"gt\",\r\n                    \"rightOperand\": \"5000\"\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
+							"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-size\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"leftOperand\": \"Organization.size\",\r\n                    \"operator\": \"gt\",\r\n                    \"rightOperand\": 5000\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -290,7 +290,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-location-and-size\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"and\": [\r\n                        {\r\n                            \"leftOperand\": \"Organization.location\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": \"EU\"\r\n                        },\r\n                        {\r\n                            \"leftOperand\": \"Organization.size\",\r\n                            \"operator\": \"gt\",\r\n                            \"rightOperand\": \"5000\"\r\n                        }\r\n                    ]\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
+							"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-location-and-size\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"and\": [\r\n                        {\r\n                            \"leftOperand\": \"Organization.location\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": \"EU\"\r\n                        },\r\n                        {\r\n                            \"leftOperand\": \"Organization.size\",\r\n                            \"operator\": \"gt\",\r\n                            \"rightOperand\": 5000\r\n                        }\r\n                    ]\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
