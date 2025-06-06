@@ -4,7 +4,6 @@ import org.eclipse.edc.participant.spi.ParticipantAgentPolicyContext;
 import org.eclipse.edc.policy.engine.spi.AtomicConstraintRuleFunction;
 import org.eclipse.edc.policy.model.Operator;
 import org.eclipse.edc.policy.model.Permission;
-import org.eclipse.edc.spi.monitor.Monitor;
 
 import java.util.Map;
 
@@ -14,45 +13,35 @@ public class OrganizationLocationFunction<C extends ParticipantAgentPolicyContex
     private static final String ORGANIZATION_CLAIM = "organization";
     private static final String LOCATION_CLAIM = "location";
 
-    private final Monitor monitor;
-
-    private OrganizationLocationFunction(Monitor monitor) {
-        this.monitor = monitor;
+    private OrganizationLocationFunction() {
     }
 
-    public static <C extends ParticipantAgentPolicyContext> OrganizationLocationFunction<C> create(Monitor monitor) {
-        return new OrganizationLocationFunction<>(monitor) {
+    public static <C extends ParticipantAgentPolicyContext> OrganizationLocationFunction<C> create() {
+        return new OrganizationLocationFunction<>() {
         };
     }
 
     @Override
     public boolean evaluate(Operator operator, Object rightValue, Permission permission, ParticipantAgentPolicyContext  policyContext) {
         if (!(rightValue instanceof String)) {
-            var message = "Right-value expected to be String but was " + rightValue.getClass();
-            policyContext.reportProblem(message);
-            monitor.debug(message);
+            policyContext.reportProblem("Right-value expected to be String but was " + rightValue.getClass());
             return false;
         }
 
         if (operator != Operator.EQ) {
-            var message = "Invalid operator, only EQ is allowed!";
-            policyContext.reportProblem(message);
-            monitor.debug(message);
+            policyContext.reportProblem("Invalid operator, only EQ is allowed!");
             return false;
         }
 
         var participantAgent  = policyContext.participantAgent();
         if (participantAgent  == null) {
-            var message = "ParticipantAgent not found on PolicyContext";
-            policyContext.reportProblem(message);
-            monitor.debug(message);
+            policyContext.reportProblem("ParticipantAgent not found on PolicyContext");
             return false;
         }
 
         var credentialResult = getCredentialList(participantAgent);
         if (credentialResult.failed()) {
             policyContext.reportProblem(credentialResult.getFailureDetail());
-            monitor.debug(credentialResult.getFailureDetail());
             return false;
         }
 
@@ -66,9 +55,7 @@ public class OrganizationLocationFunction<C extends ParticipantAgentPolicyContex
                     var isLocationEqual = locationClaim.equalsIgnoreCase(rightValue.toString());
 
                     if (!isLocationEqual) {
-                        var message = "Location expected to be '%s' but was '%s'".formatted(rightValue.toString(), locationClaim);
-                        policyContext.reportProblem(message);
-                        monitor.debug(message);
+                        policyContext.reportProblem("Location expected to be '%s' but was '%s'".formatted(rightValue.toString(), locationClaim));
                     }
 
                     return isLocationEqual;

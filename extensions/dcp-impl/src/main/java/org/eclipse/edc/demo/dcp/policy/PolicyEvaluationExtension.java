@@ -24,7 +24,6 @@ import org.eclipse.edc.policy.engine.spi.RuleBindingRegistry;
 import org.eclipse.edc.policy.model.Duty;
 import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
-import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 
@@ -41,19 +40,15 @@ public class PolicyEvaluationExtension implements ServiceExtension {
     public static final String MEMBERSHIP_CONSTRAINT_KEY = "MembershipCredential";
     private static final String ORGANIZATION_LOCATION_KEY = "Organization.location";
 
-    private Monitor monitor;
-
     @Override
     public void initialize(ServiceExtensionContext context) {
-        monitor = context.getMonitor();
-
         bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
         bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
         bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
 
-        bindPermissionFunction(OrganizationLocationFunction.create(monitor), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, ORGANIZATION_LOCATION_KEY);
-        bindPermissionFunction(OrganizationLocationFunction.create(monitor), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, ORGANIZATION_LOCATION_KEY);
-        bindPermissionFunction(OrganizationLocationFunction.create(monitor), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, ORGANIZATION_LOCATION_KEY);
+        bindPermissionFunction(OrganizationLocationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, ORGANIZATION_LOCATION_KEY);
+        bindPermissionFunction(OrganizationLocationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, ORGANIZATION_LOCATION_KEY);
+        bindPermissionFunction(OrganizationLocationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, ORGANIZATION_LOCATION_KEY);
 
         registerDataAccessLevelFunction();
     }
