@@ -39,26 +39,40 @@ public class PolicyEvaluationExtension implements ServiceExtension {
 
     public static final String MEMBERSHIP_CONSTRAINT_KEY = "MembershipCredential";
     private static final String ORGANIZATION_LOCATION_KEY = "Organization.location";
+    private static final String ORGANIZATION_SIZE_KEY = "Organization.size";
+
+    private static final String DATA_ACCESS_LEVEL_KEY = "DataAccess.level";
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
-        bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
-        bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
-
-        bindPermissionFunction(OrganizationLocationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, ORGANIZATION_LOCATION_KEY);
-        bindPermissionFunction(OrganizationLocationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, ORGANIZATION_LOCATION_KEY);
-        bindPermissionFunction(OrganizationLocationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, ORGANIZATION_LOCATION_KEY);
-
+        registerMembershipCredentialEvaluationFunction();
+        registerOrganizationLocationFunction();
+        registerOrganizationSizeFunction();
         registerDataAccessLevelFunction();
     }
 
-    private void registerDataAccessLevelFunction() {
-        var accessLevelKey = "DataAccess.level";
+    private void registerMembershipCredentialEvaluationFunction() {
+        bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
+        bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
+        bindPermissionFunction(MembershipCredentialEvaluationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, MEMBERSHIP_CONSTRAINT_KEY);
+    }
 
-        bindDutyFunction(DataAccessLevelFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, accessLevelKey);
-        bindDutyFunction(DataAccessLevelFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, accessLevelKey);
-        bindDutyFunction(DataAccessLevelFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, accessLevelKey);
+    private void registerOrganizationLocationFunction() {
+        bindPermissionFunction(OrganizationLocationFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, ORGANIZATION_LOCATION_KEY);
+        bindPermissionFunction(OrganizationLocationFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, ORGANIZATION_LOCATION_KEY);
+        bindPermissionFunction(OrganizationLocationFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, ORGANIZATION_LOCATION_KEY);
+    }
+
+    private void registerOrganizationSizeFunction() {
+        bindPermissionFunction(OrganizationSizeFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, ORGANIZATION_SIZE_KEY);
+        bindPermissionFunction(OrganizationSizeFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, ORGANIZATION_SIZE_KEY);
+        bindPermissionFunction(OrganizationSizeFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, ORGANIZATION_SIZE_KEY);
+    }
+
+    private void registerDataAccessLevelFunction() {
+        bindDutyFunction(DataAccessLevelFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, DATA_ACCESS_LEVEL_KEY);
+        bindDutyFunction(DataAccessLevelFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, DATA_ACCESS_LEVEL_KEY);
+        bindDutyFunction(DataAccessLevelFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, DATA_ACCESS_LEVEL_KEY);
     }
 
     private <C extends PolicyContext> void bindPermissionFunction(AtomicConstraintRuleFunction<Permission, C> function, Class<C> contextClass, String scope, String constraintType) {
