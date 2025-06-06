@@ -106,6 +106,54 @@
 					"response": []
 				},
 				{
+					"name": "Create Asset 5",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"asset-5\",\n    \"@type\": \"Asset\",\n    \"properties\": {\n        \"description\": \"This asset requires Membership to view and negotiate.\"\n    },\n    \"dataAddress\": {\n        \"@type\": \"DataAddress\",\n        \"type\": \"HttpData\",\n        \"baseUrl\": \"http://provider-dummy-service:8000/api/v1/data\",\n        \"proxyPath\": \"true\",\n        \"proxyQueryParams\": \"true\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}/api/management/v3/assets",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"management",
+								"v3",
+								"assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Asset 6",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"asset-6\",\n    \"@type\": \"Asset\",\n    \"properties\": {\n        \"description\": \"This asset requires Membership to view and negotiate.\"\n    },\n    \"dataAddress\": {\n        \"@type\": \"DataAddress\",\n        \"type\": \"HttpData\",\n        \"baseUrl\": \"http://provider-dummy-service:8000/api/v1/data\",\n        \"proxyPath\": \"true\",\n        \"proxyQueryParams\": \"true\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}/api/management/v3/assets",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"management",
+								"v3",
+								"assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Membership Policy",
 					"request": {
 						"method": "POST",
@@ -184,7 +232,65 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-location\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"obligation\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"leftOperand\": \"Organization.location\",\r\n                    \"operator\": \"eq\",\r\n                    \"rightOperand\": \"EU\"\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
+							"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-location\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"leftOperand\": \"Organization.location\",\r\n                    \"operator\": \"eq\",\r\n                    \"rightOperand\": \"EU\"\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/management/v3/policydefinitions",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"management",
+								"v3",
+								"policydefinitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Org Size policy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-size\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"leftOperand\": \"Organization.size\",\r\n                    \"operator\": \"gt\",\r\n                    \"rightOperand\": \"5000\"\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/management/v3/policydefinitions",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"management",
+								"v3",
+								"policydefinitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Org Location and Org Size policy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-location-and-size\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"and\": [\r\n                        {\r\n                            \"leftOperand\": \"Organization.location\",\r\n                            \"operator\": \"eq\",\r\n                            \"rightOperand\": \"EU\"\r\n                        },\r\n                        {\r\n                            \"leftOperand\": \"Organization.size\",\r\n                            \"operator\": \"gt\",\r\n                            \"rightOperand\": \"5000\"\r\n                        }\r\n                    ]\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -255,13 +361,61 @@
 					"response": []
 				},
 				{
-					"name": "Create \"member-and-org-location-cred\" asset 4 definition",
+					"name": "Create \"org-location-and-data-cred\" asset 4 definition",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"member-and-headquarter-def-asset-4\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-membership\",\n    \"contractPolicyId\": \"require-org-location\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-4\"\n    }\n}"
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"org-location-and-data-cred-def-asset-4\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-org-location\",\n    \"contractPolicyId\": \"require-dataprocessor\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-4\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}/api/management/v3/contractdefinitions",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"management",
+								"v3",
+								"contractdefinitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create \"org-size-and-data-cred\" asset 5 definition",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"org-location-and-data-cred-def-asset-5\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-org-size\",\n    \"contractPolicyId\": \"require-dataprocessor\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-5\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}/api/management/v3/contractdefinitions",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"management",
+								"v3",
+								"contractdefinitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create \"org-location-and-size-and-data-cred\" asset 6 definition",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"org-location-and-size-and-data-cred-def-asset-6\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-org-location-and-size\",\n    \"contractPolicyId\": \"require-dataprocessor\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-6\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{HOST}}/api/management/v3/contractdefinitions",
@@ -286,6 +440,30 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"sensitive-only-def-asset-2\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-membership\",\n    \"contractPolicyId\": \"require-sensitive\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-2\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{HOST}}/api/management/v3/contractdefinitions",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"management",
+								"v3",
+								"contractdefinitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create \"org-location-and-size-and-data-cred\" asset 6 definition",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"org-location-and-size-and-data-cred-def-asset-6\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-org-location-and-size\",\n    \"contractPolicyId\": \"require-dataprocessor\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-6\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{HOST}}/api/management/v3/contractdefinitions",
@@ -593,7 +771,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"ContractRequest\",\n    \"counterPartyAddress\": \"{{PROVIDER_QNA_DSP_URL}}/api/dsp\",\n    \"counterPartyId\": \"{{PROVIDER_ID}}\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"policy\": {\n        \"@type\": \"Offer\",\n        \"@id\": \"{{POLICY_ID_ASSET_1}}\",\n        \"assigner\": \"{{PROVIDER_ID}}\",\n        \"permission\": [],\n        \"prohibition\": [],\n        \"obligation\": {\n            \"action\": \"use\",\n            \"constraint\": {\n                \"leftOperand\": \"DataAccess.level\",\n                \"operator\": \"eq\",\n                \"rightOperand\": \"processing\"\n            }\n        },\n        \"target\": \"asset-1\"\n    },\n    \"callbackAddresses\": []\n}",
+									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"ContractRequest\",\n    \"counterPartyAddress\": \"{{PROVIDER_QNA_DSP_URL}}/api/dsp\",\n    \"counterPartyId\": \"{{PROVIDER_ID}}\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"policy\": {\n        \"@type\": \"Offer\",\n        \"@id\": \"bWVtYmVyLWFuZC1oZWFkcXVhcnRlci1kZWYtYXNzZXQtNA==:YXNzZXQtNA==:NzM2YzY2ZTUtYjk2Mi00YTZlLTg1ZDUtZDY4MTI0MmFjZGI3\",\n        \"assigner\": \"{{PROVIDER_ID}}\",\n        \"permission\": {\n            \"action\": \"use\",\n                \"constraint\": {\n                    \"leftOperand\": \"Organization.location\",\n                    \"operator\": \"eq\",\n                    \"rightOperand\": \"EU\"\n            }\n        },\n        \"prohibition\": [],\n        \"obligation\": [],\n        \"target\": \"asset-4\"\n    },\n    \"callbackAddresses\": []\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -705,7 +883,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"assetId\": \"asset-1\",\n    \"counterPartyAddress\":  \"{{PROVIDER_QNA_DSP_URL}}/api/dsp\",\n    \"connectorId\": \"{{PROVIDER_ID}}\",\n    \"contractId\": \"{{CONTRACT_AGREEMENT_ID}}\",\n    \"dataDestination\": {\n        \"type\": \"HttpProxy\"\n    },\n    \"protocol\": \"dataspace-protocol-http\",\n    \"transferType\": \"HttpData-PULL\"\n}",
+									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"assetId\": \"asset-1\",\n    \"counterPartyAddress\":  \"{{PROVIDER_QNA_DSP_URL}}/api/dsp\",\n    \"connectorId\": \"{{PROVIDER_ID}}\",\n    \"contractId\": \"8d67e195-b0d5-4e4a-bba3-7e9a25513d55\",\n    \"dataDestination\": {\n        \"type\": \"HttpProxy\"\n    },\n    \"protocol\": \"dataspace-protocol-http\",\n    \"transferType\": \"HttpData-PULL\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
