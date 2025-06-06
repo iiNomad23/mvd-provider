@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static org.eclipse.edc.demo.dcp.policy.PolicyEvaluationExtension.MEMBERSHIP_CONSTRAINT_KEY;
 
+// TODO: Print logs
 public class OrganizationLocationFunction<C extends ParticipantAgentPolicyContext> extends AbstractCredentialEvaluationFunction implements AtomicConstraintRuleFunction<Permission, C> {
     private static final String ORGANIZATION_CLAIM = "organization";
     private static final String LOCATION_CLAIM = "location";
@@ -51,8 +52,13 @@ public class OrganizationLocationFunction<C extends ParticipantAgentPolicyContex
                 .anyMatch(credential -> {
                     var organizationClaim = (Map<String, ?>) credential.getClaim(MVD_NAMESPACE, ORGANIZATION_CLAIM);
                     var locationClaim = organizationClaim.get(LOCATION_CLAIM).toString();
+                    var isLocationEqual = locationClaim.equalsIgnoreCase(rightValue.toString());
 
-                    return locationClaim.equalsIgnoreCase(rightValue.toString());
+                    if (!isLocationEqual) {
+                        policyContext.reportProblem("Location expected to be '%s' but was '%s'".formatted(rightValue.toString(), locationClaim));
+                    }
+
+                    return isLocationEqual;
                 });
     }
 }
