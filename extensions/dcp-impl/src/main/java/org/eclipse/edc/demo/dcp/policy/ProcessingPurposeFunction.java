@@ -20,27 +20,24 @@ import org.eclipse.edc.policy.model.Duty;
 import org.eclipse.edc.policy.model.Operator;
 import org.eclipse.edc.spi.monitor.Monitor;
 
-import java.util.Objects;
-
-public class DataAccessLevelFunction<C extends ParticipantAgentPolicyContext> extends AbstractCredentialEvaluationFunction implements AtomicConstraintRuleFunction<Duty, C> {
+public class ProcessingPurposeFunction<C extends ParticipantAgentPolicyContext> extends AbstractCredentialEvaluationFunction implements AtomicConstraintRuleFunction<Duty, C> {
     private final Monitor monitor;
 
     private static final String DATAPROCESSOR_CRED_TYPE = "DataProcessorCredential";
-    private static final String CONTRACT_VERSION_CLAIM = "contractVersion";
-    private static final String LEVEL_CLAIM = "level";
+    private static final String PURPOSE_CLAIM = "purpose";
 
-    private DataAccessLevelFunction(Monitor monitor) {
+    private ProcessingPurposeFunction(Monitor monitor) {
         this.monitor = monitor;
     }
 
-    public static <C extends ParticipantAgentPolicyContext> DataAccessLevelFunction<C> create(Monitor monitor) {
-        return new DataAccessLevelFunction<>(monitor) {
+    public static <C extends ParticipantAgentPolicyContext> ProcessingPurposeFunction<C> create(Monitor monitor) {
+        return new ProcessingPurposeFunction<>(monitor) {
         };
     }
 
     @Override
     public boolean evaluate(Operator operator, Object rightOperand, Duty duty, C policyContext) {
-        monitor.debug("DataAccessLevelFunction evaluate called");
+        monitor.debug("ProcessingPurposeFunction evaluate called");
 
         if (!operator.equals(Operator.EQ)) {
             policyContext.reportProblem("Cannot evaluate operator %s, only %s is supported".formatted(operator, Operator.EQ));
@@ -67,13 +64,11 @@ public class DataAccessLevelFunction<C extends ParticipantAgentPolicyContext> ex
                 .filter(vc -> vc.getType().stream().anyMatch(t -> t.endsWith(DATAPROCESSOR_CRED_TYPE)))
                 .flatMap(credential -> credential.getCredentialSubject().stream())
                 .anyMatch(credentialSubject -> {
-                    var version = credentialSubject.getClaim(MVD_NAMESPACE, CONTRACT_VERSION_CLAIM);
-                    var level = credentialSubject.getClaim(MVD_NAMESPACE, LEVEL_CLAIM);
+                    var purpose = credentialSubject.getClaim(MVD_NAMESPACE, PURPOSE_CLAIM).toString();
 
-                    monitor.debug("Version: %s".formatted(version));
-                    monitor.debug("Level: %s".formatted(level));
+                    monitor.debug("Purpose: %s".formatted(purpose));
 
-                    return version != null && Objects.equals(level, rightOperand);
+                    return purpose.equals(rightOperand.toString());
                 });
     }
 }

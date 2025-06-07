@@ -18,6 +18,7 @@ import org.eclipse.edc.participant.spi.ParticipantAgentPolicyContext;
 import org.eclipse.edc.policy.engine.spi.AtomicConstraintRuleFunction;
 import org.eclipse.edc.policy.model.Operator;
 import org.eclipse.edc.policy.model.Permission;
+import org.eclipse.edc.spi.monitor.Monitor;
 
 import java.time.Instant;
 import java.util.Map;
@@ -25,40 +26,47 @@ import java.util.Map;
 import static org.eclipse.edc.demo.dcp.policy.PolicyEvaluationExtension.MEMBERSHIP_CONSTRAINT_KEY;
 
 public class MembershipCredentialEvaluationFunction<C extends ParticipantAgentPolicyContext> extends AbstractCredentialEvaluationFunction implements AtomicConstraintRuleFunction<Permission, C> {
-
+    private final Monitor monitor;
 
     private static final String MEMBERSHIP_CLAIM = "membership";
     private static final String SINCE_CLAIM = "since";
     private static final String ACTIVE = "active";
 
-    private MembershipCredentialEvaluationFunction() {
+    private MembershipCredentialEvaluationFunction(Monitor monitor) {
+        this.monitor = monitor;
     }
 
-    public static <C extends ParticipantAgentPolicyContext> MembershipCredentialEvaluationFunction<C> create() {
-        return new MembershipCredentialEvaluationFunction<>() {
+    public static <C extends ParticipantAgentPolicyContext> MembershipCredentialEvaluationFunction<C> create(Monitor monitor) {
+        return new MembershipCredentialEvaluationFunction<>(monitor) {
         };
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public boolean evaluate(Operator operator, Object rightOperand, Permission permission, C policyContext) {
+        monitor.debug("MembershipCredentialEvaluationFunction evaluate called");
+
         if (!operator.equals(Operator.EQ)) {
             policyContext.reportProblem("Invalid operator '%s', only accepts '%s'".formatted(operator, Operator.EQ));
+            monitor.severe("Invalid operator '%s', only accepts '%s'".formatted(operator, Operator.EQ));
             return false;
         }
         if (!ACTIVE.equals(rightOperand)) {
             policyContext.reportProblem("Right-operand must be equal to '%s', but was '%s'".formatted(ACTIVE, rightOperand));
+            monitor.severe("Right-operand must be equal to '%s', but was '%s'".formatted(ACTIVE, rightOperand));
             return false;
         }
 
         var pa = policyContext.participantAgent();
         if (pa == null) {
             policyContext.reportProblem("No ParticipantAgent found on context.");
+            monitor.severe("No ParticipantAgent found on context.");
             return false;
         }
         var credentialResult = getCredentialList(pa);
         if (credentialResult.failed()) {
             policyContext.reportProblem(credentialResult.getFailureDetail());
+            monitor.severe(credentialResult.getFailureDetail());
             return false;
         }
 
@@ -69,6 +77,9 @@ public class MembershipCredentialEvaluationFunction<C extends ParticipantAgentPo
                 .anyMatch(credential -> {
                     var membershipClaim = (Map<String, ?>) credential.getClaim(MVD_NAMESPACE, MEMBERSHIP_CLAIM);
                     var membershipStartDate = Instant.parse(membershipClaim.get(SINCE_CLAIM).toString());
+
+                    monitor.debug("Membership start date: %s".formatted(membershipStartDate));
+
                     return membershipStartDate.isBefore(Instant.now());
                 });
     }

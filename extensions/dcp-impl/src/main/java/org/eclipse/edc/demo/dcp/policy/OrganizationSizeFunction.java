@@ -11,10 +11,11 @@ import java.util.Map;
 import static org.eclipse.edc.demo.dcp.policy.PolicyEvaluationExtension.MEMBERSHIP_CONSTRAINT_KEY;
 
 public class OrganizationSizeFunction<C extends ParticipantAgentPolicyContext> extends AbstractCredentialEvaluationFunction implements AtomicConstraintRuleFunction<Permission, C> {
+    private final Monitor monitor;
+
     private static final String ORGANIZATION_CLAIM = "organization";
     private static final String SIZE_CLAIM = "size";
 
-    private final Monitor monitor;
 
     private OrganizationSizeFunction(Monitor monitor) {
         this.monitor = monitor;
@@ -27,6 +28,8 @@ public class OrganizationSizeFunction<C extends ParticipantAgentPolicyContext> e
 
     @Override
     public boolean evaluate(Operator operator, Object rightValue, Permission permission, ParticipantAgentPolicyContext  policyContext) {
+        monitor.debug("OrganizationSizeFunction evaluate called");
+
         if (parseIntOrNull(rightValue.toString()) == null) {
             policyContext.reportProblem("Right-value expected to be Integer but was " + rightValue.getClass());
             monitor.severe("Right-value expected to be Integer but was " + rightValue.getClass());
@@ -61,10 +64,7 @@ public class OrganizationSizeFunction<C extends ParticipantAgentPolicyContext> e
                     var sizeClaim = Integer.parseInt(organizationClaim.get(SIZE_CLAIM).toString());
                     var isSizeGreater = sizeClaim > Integer.parseInt(rightValue.toString());
 
-                    if (!isSizeGreater) {
-                        policyContext.reportProblem("Size expected to be greater than '%s' but was '%s'".formatted(rightValue.toString(), sizeClaim));
-                        monitor.severe("Size expected to be greater than '%s' but was '%s'".formatted(rightValue.toString(), sizeClaim));
-                    }
+                    monitor.debug("Organization Size: %s".formatted(isSizeGreater));
 
                     return isSizeGreater;
                 });

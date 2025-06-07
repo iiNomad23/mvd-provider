@@ -76,7 +76,6 @@ public class DcpPatchExtension implements ServiceExtension {
         policyEngine.registerPostValidator(RequestTransferProcessPolicyContext.class, contextMappingFunction::apply);
         policyEngine.registerPostValidator(RequestVersionPolicyContext.class, contextMappingFunction::apply);
 
-
         //register scope extractor
         scopeExtractorRegistry.registerScopeExtractor(new DataAccessCredentialScopeExtractor());
 
