@@ -50,14 +50,14 @@ public class OrganizationSizeFunction<C extends ParticipantAgentPolicyContext> e
                 .flatMap(vc -> vc.getCredentialSubject().stream().filter(cs -> cs.getClaims().containsKey(ORGANIZATION_CLAIM)))
                 .anyMatch(credential -> {
                     var organizationClaim = (Map<String, ?>) credential.getClaim(MVD_NAMESPACE, ORGANIZATION_CLAIM);
-                    var sizeClaim = organizationClaim.get(SIZE_CLAIM).toString();
-                    var isLocationEqual = sizeClaim.equalsIgnoreCase(rightValue.toString());
+                    var sizeClaim = Integer.parseInt(organizationClaim.get(SIZE_CLAIM).toString());
+                    var isSizeGreater = sizeClaim > Integer.parseInt(rightValue.toString());
 
-                    if (!isLocationEqual) {
-                        policyContext.reportProblem("Size expected to be '%s' but was '%s'".formatted(rightValue.toString(), sizeClaim));
+                    if (!isSizeGreater) {
+                        policyContext.reportProblem("Size expected to be greater than '%s' but was '%s'".formatted(rightValue.toString(), sizeClaim));
                     }
 
-                    return isLocationEqual;
+                    return isSizeGreater;
                 });
     }
 }
