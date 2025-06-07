@@ -24,6 +24,7 @@ import org.eclipse.edc.policy.engine.spi.RuleBindingRegistry;
 import org.eclipse.edc.policy.model.Duty;
 import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
+import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 
@@ -43,8 +44,12 @@ public class PolicyEvaluationExtension implements ServiceExtension {
 
     private static final String DATA_ACCESS_LEVEL_KEY = "DataAccess.level";
 
+    private Monitor monitor;
+
     @Override
     public void initialize(ServiceExtensionContext context) {
+        monitor = context.getMonitor();
+
         registerMembershipCredentialEvaluationFunction();
         registerOrganizationLocationFunction();
         registerOrganizationSizeFunction();
@@ -64,9 +69,9 @@ public class PolicyEvaluationExtension implements ServiceExtension {
     }
 
     private void registerOrganizationSizeFunction() {
-        bindPermissionFunction(OrganizationSizeFunction.create(), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, ORGANIZATION_SIZE_KEY);
-        bindPermissionFunction(OrganizationSizeFunction.create(), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, ORGANIZATION_SIZE_KEY);
-        bindPermissionFunction(OrganizationSizeFunction.create(), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, ORGANIZATION_SIZE_KEY);
+        bindPermissionFunction(OrganizationSizeFunction.create(monitor), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, ORGANIZATION_SIZE_KEY);
+        bindPermissionFunction(OrganizationSizeFunction.create(monitor), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, ORGANIZATION_SIZE_KEY);
+        bindPermissionFunction(OrganizationSizeFunction.create(monitor), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, ORGANIZATION_SIZE_KEY);
     }
 
     private void registerDataAccessLevelFunction() {

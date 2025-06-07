@@ -4,6 +4,7 @@ import org.eclipse.edc.participant.spi.ParticipantAgentPolicyContext;
 import org.eclipse.edc.policy.engine.spi.AtomicConstraintRuleFunction;
 import org.eclipse.edc.policy.model.Operator;
 import org.eclipse.edc.policy.model.Permission;
+import org.eclipse.edc.spi.monitor.Monitor;
 
 import java.util.Map;
 
@@ -13,28 +14,35 @@ public class OrganizationSizeFunction<C extends ParticipantAgentPolicyContext> e
     private static final String ORGANIZATION_CLAIM = "organization";
     private static final String SIZE_CLAIM = "size";
 
-    private OrganizationSizeFunction() { }
+    private final Monitor monitor;
 
-    public static <C extends ParticipantAgentPolicyContext> OrganizationSizeFunction<C> create() {
-        return new OrganizationSizeFunction<>() {
+    private OrganizationSizeFunction(Monitor monitor) {
+        this.monitor = monitor;
+    }
+
+    public static <C extends ParticipantAgentPolicyContext> OrganizationSizeFunction<C> create(Monitor  monitor) {
+        return new OrganizationSizeFunction<>(monitor) {
         };
     }
 
     @Override
     public boolean evaluate(Operator operator, Object rightValue, Permission permission, ParticipantAgentPolicyContext  policyContext) {
-        if (!(rightValue instanceof Integer)) {
+        if (parseIntOrNull(rightValue.toString()) == null) {
             policyContext.reportProblem("Right-value expected to be Integer but was " + rightValue.getClass());
+            monitor.severe("Right-value expected to be Integer but was " + rightValue.getClass());
             return false;
         }
 
         if (operator != Operator.GT) {
             policyContext.reportProblem("Invalid operator, only GT is allowed!");
+            monitor.severe("Invalid operator, only GT is allowed!");
             return false;
         }
 
         var participantAgent  = policyContext.participantAgent();
         if (participantAgent  == null) {
             policyContext.reportProblem("ParticipantAgent not found on PolicyContext");
+            monitor.severe("ParticipantAgent not found on PolicyContext");
             return false;
         }
 
@@ -55,9 +63,18 @@ public class OrganizationSizeFunction<C extends ParticipantAgentPolicyContext> e
 
                     if (!isSizeGreater) {
                         policyContext.reportProblem("Size expected to be greater than '%s' but was '%s'".formatted(rightValue.toString(), sizeClaim));
+                        monitor.severe("Size expected to be greater than '%s' but was '%s'".formatted(rightValue.toString(), sizeClaim));
                     }
 
                     return isSizeGreater;
                 });
+    }
+
+    private Integer parseIntOrNull(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
