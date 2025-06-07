@@ -35,7 +35,7 @@ public class OrganizationLocationFunction<C extends ParticipantAgentPolicyContex
             return false;
         }
 
-        if (operator != Operator.EQ) {
+        if (operator != Operator.EQ && operator != Operator.NEQ) {
             policyContext.reportProblem("Invalid operator, only EQ is allowed!");
             monitor.severe("Invalid operator, only EQ is allowed!");
             return false;
@@ -65,7 +65,11 @@ public class OrganizationLocationFunction<C extends ParticipantAgentPolicyContex
 
                     monitor.debug("Organization Location: %s".formatted(locationClaim));
 
-                    return locationClaim.equalsIgnoreCase(rightValue.toString());
+                    return switch (operator) {
+                        case EQ -> locationClaim.equalsIgnoreCase(rightValue.toString());
+                        case NEQ -> !locationClaim.equalsIgnoreCase(rightValue.toString());
+                        default -> false;
+                    };
                 });
     }
 }

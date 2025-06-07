@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "947c874f-440c-48e3-8326-40c4f9ea61db",
+		"_postman_id": "215843a8-a671-45ce-96f5-9984c1bd6500",
 		"name": "MVD+IATP",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "40775346"
@@ -179,6 +179,30 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Create Asset 8",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"asset-8\",\n    \"@type\": \"Asset\",\n    \"properties\": {\n        \"description\": \"This asset requires Membership to view and negotiate.\"\n    },\n    \"dataAddress\": {\n        \"@type\": \"DataAddress\",\n        \"type\": \"HttpData\",\n        \"baseUrl\": \"http://provider-dummy-service:8000/api/v1/data\",\n        \"proxyPath\": \"true\",\n        \"proxyQueryParams\": \"true\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{HOST}}/api/management/v3/assets",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api",
+										"management",
+										"v3",
+										"assets"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -265,6 +289,35 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-location\",\r\n    \"policy\": {\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"leftOperand\": \"Organization.location\",\r\n                    \"operator\": \"eq\",\r\n                    \"rightOperand\": \"EU\"\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api/management/v3/policydefinitions",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api",
+										"management",
+										"v3",
+										"policydefinitions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Org Location Not EU policy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"@context\": [\r\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\r\n    ],\r\n    \"@type\": \"PolicyDefinition\",\r\n    \"@id\": \"require-org-location-not-eu\",\r\n    \"policy\": {\r\n        \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\r\n        \"@type\": \"Set\",\r\n        \"permission\": [\r\n            {\r\n                \"action\": \"use\",\r\n                \"constraint\": {\r\n                    \"@type\": \"AtomicConstraint\",\r\n                    \"leftOperand\": \"Organization.location\",\r\n                    \"operator\": {\r\n                        \"@id\": \"odrl:neq\"\r\n                    },\r\n                    \"rightOperand\": \"EU\"\r\n                }\r\n            }\r\n        ]\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -501,6 +554,30 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"member-and-purpose-research-def-asset-7\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-membership\",\n    \"contractPolicyId\": \"require-purpose-research\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-7\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{HOST}}/api/management/v3/contractdefinitions",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api",
+										"management",
+										"v3",
+										"contractdefinitions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create \"org-location-and-data-cred\" asset 8 definition",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"org-location-no-eu-and-data-cred-def-asset-4\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-org-location-not-eu\",\n    \"contractPolicyId\": \"require-dataprocessor\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-8\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{HOST}}/api/management/v3/contractdefinitions",
