@@ -407,11 +407,12 @@
 									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"org-size-and-data-cred-def-asset-5\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-org-size\",\n    \"contractPolicyId\": \"require-dataprocessor\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-5\"\n    }\n}"
 								},
 								"url": {
-									"raw": "{{HOST}}api/management/v3/contractdefinitions",
+									"raw": "{{HOST}}/api/management/v3/contractdefinitions",
 									"host": [
-										"{{HOST}}api"
+										"{{HOST}}"
 									],
 									"path": [
+										"api",
 										"management",
 										"v3",
 										"contractdefinitions"
