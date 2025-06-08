@@ -23,6 +23,7 @@ import org.eclipse.edc.policy.engine.spi.PolicyEngine;
 import org.eclipse.edc.policy.engine.spi.RuleBindingRegistry;
 import org.eclipse.edc.policy.model.Duty;
 import org.eclipse.edc.policy.model.Permission;
+import org.eclipse.edc.policy.model.Prohibition;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.system.ServiceExtension;
@@ -84,9 +85,13 @@ public class PolicyEvaluationExtension implements ServiceExtension {
     }
 
     private void registerProcessingPurposeFunction() {
-        bindDutyFunction(ProcessingPurposeFunction.create(monitor), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, DATA_ACCESS_PURPOSE);
-        bindDutyFunction(ProcessingPurposeFunction.create(monitor), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, DATA_ACCESS_PURPOSE);
-        bindDutyFunction(ProcessingPurposeFunction.create(monitor), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, DATA_ACCESS_PURPOSE);
+        bindDutyFunction(ProcessingPurposeDutyFunction.create(monitor), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, DATA_ACCESS_PURPOSE);
+        bindDutyFunction(ProcessingPurposeDutyFunction.create(monitor), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, DATA_ACCESS_PURPOSE);
+        bindDutyFunction(ProcessingPurposeDutyFunction.create(monitor), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, DATA_ACCESS_PURPOSE);
+
+        bindProhibitionFunction(ProcessingPurposeProhibitionFunction.create(monitor), TransferProcessPolicyContext.class, TransferProcessPolicyContext.TRANSFER_SCOPE, DATA_ACCESS_PURPOSE);
+        bindProhibitionFunction(ProcessingPurposeProhibitionFunction.create(monitor), ContractNegotiationPolicyContext.class, ContractNegotiationPolicyContext.NEGOTIATION_SCOPE, DATA_ACCESS_PURPOSE);
+        bindProhibitionFunction(ProcessingPurposeProhibitionFunction.create(monitor), CatalogPolicyContext.class, CatalogPolicyContext.CATALOG_SCOPE, DATA_ACCESS_PURPOSE);
     }
 
     private <C extends PolicyContext> void bindPermissionFunction(AtomicConstraintRuleFunction<Permission, C> function, Class<C> contextClass, String scope, String constraintType) {
@@ -103,5 +108,13 @@ public class PolicyEvaluationExtension implements ServiceExtension {
         ruleBindingRegistry.bind(constraintType, scope);
 
         policyEngine.registerFunction(contextClass, Duty.class, constraintType, function);
+    }
+
+    private <C extends PolicyContext> void bindProhibitionFunction(AtomicConstraintRuleFunction<Prohibition, C> function, Class<C> contextClass, String scope, String constraintType) {
+        ruleBindingRegistry.bind("use", scope);
+        ruleBindingRegistry.bind(ODRL_SCHEMA + "use", scope);
+        ruleBindingRegistry.bind(constraintType, scope);
+
+        policyEngine.registerFunction(contextClass, Prohibition.class, constraintType, function);
     }
 }

@@ -203,6 +203,30 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Create Asset 9",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"asset-9\",\n    \"@type\": \"Asset\",\n    \"properties\": {\n        \"description\": \"This asset requires Membership to view and negotiate.\"\n    },\n    \"dataAddress\": {\n        \"@type\": \"DataAddress\",\n        \"type\": \"HttpData\",\n        \"baseUrl\": \"http://provider-dummy-service:8000/api/v1/data\",\n        \"proxyPath\": \"true\",\n        \"proxyQueryParams\": \"true\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{HOST}}/api/management/v3/assets",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api",
+										"management",
+										"v3",
+										"assets"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -420,6 +444,30 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Create Prohibit Purpose Research policy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"PolicyDefinition\",\n    \"@id\": \"prohibit-purpose-research\",\n    \"policy\": {\n        \"@type\": \"Set\",\n        \"prohibition\": [\n            {\n                \"action\": \"use\",\n                \"constraint\": {\n                    \"leftOperand\": \"DataAccess.purpose\",\n                    \"operator\": \"eq\",\n                    \"rightOperand\": \"research\"\n                }\n            }\n        ]\n    }\n}"
+								},
+								"url": {
+									"raw": "{{HOST}}/api/management/v3/policydefinitions",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api",
+										"management",
+										"v3",
+										"policydefinitions"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -578,6 +626,30 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"org-location-no-eu-and-data-cred-def-asset-4\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-org-location-not-eu\",\n    \"contractPolicyId\": \"require-dataprocessor\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-8\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{HOST}}/api/management/v3/contractdefinitions",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api",
+										"management",
+										"v3",
+										"contractdefinitions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create \"member-and-purpose-research-cred\" asset 9 definition",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@id\": \"member-and-prohibit-purpose-research-def-asset-9\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"require-membership\",\n    \"contractPolicyId\": \"prohibit-purpose-research\",\n    \"assetsSelector\": {\n        \"@type\": \"Criterion\",\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n        \"operator\": \"=\",\n        \"operandRight\": \"asset-9\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{HOST}}/api/management/v3/contractdefinitions",
@@ -911,7 +983,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"ContractRequest\",\n    \"counterPartyAddress\": \"{{PROVIDER_QNA_DSP_URL}}/api/dsp\",\n    \"counterPartyId\": \"{{PROVIDER_ID}}\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"policy\": {\n        \"@type\": \"Offer\",\n        \"@id\": \"bWVtYmVyLWFuZC1wdXJwb3NlLXJlc2VhcmNoLWRlZi1hc3NldC03:YXNzZXQtNw==:YmQ2YmMwYWEtNDQ2ZC00MTg3LTgyYjAtYjRjZWViNDBjYjZm\",\n        \"assigner\": \"{{PROVIDER_ID}}\",\n        \"permission\": [],\n        \"prohibition\": [],\n        \"obligation\": {\n            \"action\": \"use\",\n            \"constraint\": {\n                \"leftOperand\": \"DataAccess.purpose\",\n                \"operator\": \"eq\",\n                \"rightOperand\": \"research\"\n            }\n        },\n        \"target\": \"asset-7\"\n    },\n    \"callbackAddresses\": []\n}",
+									"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"ContractRequest\",\n    \"counterPartyAddress\": \"{{PROVIDER_QNA_DSP_URL}}/api/dsp\",\n    \"counterPartyId\": \"{{PROVIDER_ID}}\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"policy\": {\n        \"@type\": \"Offer\",\n        \"@id\": \"bWVtYmVyLWFuZC1wcm9oaWJpdC1wdXJwb3NlLXJlc2VhcmNoLWRlZi1hc3NldC05:YXNzZXQtOQ==:ODYyYTQ4OWQtNDY0Ny00N2ZmLWFjZDQtMzE4YmViY2U2ODFj\",\n        \"assigner\": \"{{PROVIDER_ID}}\",\n        \"permission\": [],\n        \"prohibition\": {\n            \"action\": \"use\",\n            \"constraint\": {\n                \"leftOperand\": \"DataAccess.purpose\",\n                \"operator\": \"eq\",\n                \"rightOperand\": \"research\"\n            }\n        },\n        \"obligation\": [],\n        \"target\": \"asset-7\"\n    },\n    \"callbackAddresses\": []\n}",
 									"options": {
 										"raw": {
 											"language": "json"
