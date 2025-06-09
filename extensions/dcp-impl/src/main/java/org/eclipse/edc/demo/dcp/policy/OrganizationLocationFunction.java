@@ -36,8 +36,8 @@ public class OrganizationLocationFunction<C extends ParticipantAgentPolicyContex
         }
 
         if (operator != Operator.EQ && operator != Operator.NEQ) {
-            policyContext.reportProblem("Invalid operator, only EQ is allowed!");
-            monitor.severe("Invalid operator, only EQ is allowed!");
+            policyContext.reportProblem("Invalid operator %s, only %s and %s is allowed!".formatted(operator, Operator.EQ, Operator.NEQ));
+            monitor.severe("Invalid operator %s, only %s and %s is allowed!".formatted(operator, Operator.EQ, Operator.NEQ));
             return false;
         }
 
