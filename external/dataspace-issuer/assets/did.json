@@ -2,9 +2,9 @@
   "service": [],
   "verificationMethod": [
     {
-      "id": "did:web:10.0.40.172#key-1",
+      "id": "did:web:[INSERT ISSUER IP]#key-1",
       "type": "JsonWebKey2020",
-      "controller": "did:web:10.0.40.172",
+      "controller": "did:web:[INSERT ISSUER IP]",
       "publicKeyMultibase": null,
       "publicKeyJwk": {
         "kty": "OKP",
@@ -14,11 +14,11 @@
     }
   ],
   "authentication": ["key-1"],
-  "id": "did:web:10.0.40.172",
+  "id": "did:web:[INSERT ISSUER IP]",
   "@context": [
     "https://www.w3.org/ns/did/v1",
     {
-      "@base": "did:web:10.0.40.172"
+      "@base": "did:web:[INSERT ISSUER IP]"
     }
   ]
 }
