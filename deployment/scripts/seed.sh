@@ -13,8 +13,8 @@ done
 newman run \
   --folder "Seed Catalog Server" \
   --env-var "HOST=http://127.0.0.1:9081" \
-  --env-var "PROVIDER_QNA_DSP_URL=http://10.0.40.172:4082" \
-  --env-var "PROVIDER_MF_DSP_URL=http://10.0.40.172:5082" \
+  --env-var "PROVIDER_QNA_DSP_URL=http://[INSERT PROVIDER IP]:4082" \
+  --env-var "PROVIDER_MF_DSP_URL=http://[INSERT PROVIDER IP]:5082" \
   ../postman/MVD.postman_collection.json
 
 ## Seed management DATA to identityhubs
@@ -24,14 +24,14 @@ API_KEY="c3VwZXItdXNlcg==.c3VwZXItc2VjcmV0LWtleQo="
 echo
 echo
 echo "Create provider participant"
-PROVIDER_CATALOG_SERVER_URL="http://10.0.40.172:9082"
-PROVIDER_IDENTITYHUB_URL="http://10.0.40.172:7082"
+PROVIDER_CATALOG_SERVER_URL="http://[INSERT PROVIDER IP]:9082"
+PROVIDER_IDENTITYHUB_URL="http://[INSERT PROVIDER IP]:7082"
 DATA_PROVIDER=$(jq -n --arg url "$PROVIDER_CATALOG_SERVER_URL" --arg ihurl "$PROVIDER_IDENTITYHUB_URL" '{
            "roles":[],
            "serviceEndpoints":[
              {
                 "type": "CredentialService",
-                "serviceEndpoint": "\($ihurl)/api/presentation/v1/participants/ZGlkOndlYjoxMC4wLjQwLjE3MiUzQTcwODM6cHJvdmlkZXI=",
+                "serviceEndpoint": "\($ihurl)/api/presentation/v1/participants/[INSERT PROVIDER DID AS BASE64 STRING]",
                 "id": "provider-credentialservice-1"
              },
              {
@@ -41,11 +41,11 @@ DATA_PROVIDER=$(jq -n --arg url "$PROVIDER_CATALOG_SERVER_URL" --arg ihurl "$PRO
              }
            ],
            "active": true,
-           "participantId": "did:web:10.0.40.172%3A7083:provider",
-           "did": "did:web:10.0.40.172%3A7083:provider",
+           "participantId": "did:web:[INSERT PROVIDER IP]%3A7083:provider",
+           "did": "did:web:[INSERT PROVIDER IP]%3A7083:provider",
            "key":{
-               "keyId": "did:web:10.0.40.172%3A7083:provider#key-1",
-               "privateKeyAlias": "did:web:10.0.40.172%3A7083:provider#key-1",
+               "keyId": "did:web:[INSERT PROVIDER IP]%3A7083:provider#key-1",
+               "privateKeyAlias": "did:web:[INSERT PROVIDER IP]%3A7083:provider#key-1",
                "keyGeneratorParams":{
                   "algorithm": "EC"
                }
