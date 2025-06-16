@@ -1,6 +1,6 @@
 services:
   sts:
-    image: localhost:5000/sts:latest
+    image: [INSERT DOCKER REGISTRY]/sts:latest
     container_name: provider-sts
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1046
@@ -33,7 +33,7 @@ services:
       - mvd
 
   identity-hub:
-    image: localhost:5000/identity-hub:latest
+    image: [INSERT DOCKER REGISTRY]/identity-hub:latest
     container_name: provider-identity-hub
     restart: always
     environment:
@@ -87,7 +87,7 @@ services:
       - mvd
 
   catalog-server:
-    image: localhost:5000/catalog-server:latest
+    image: [INSERT DOCKER REGISTRY]/catalog-server:latest
     container_name: provider-catalog-server
     restart: always
     environment:
@@ -139,7 +139,7 @@ services:
       - mvd
 
   qna-connector-controlplane:
-    image: localhost:5000/controlplane:latest
+    image: [INSERT DOCKER REGISTRY]/controlplane:latest
     container_name: provider-qna-connector-controlplane
     restart: always
     environment:
@@ -199,7 +199,7 @@ services:
       - mvd
 
   qna-connector-dataplane:
-    image: localhost:5000/dataplane:latest
+    image: [INSERT DOCKER REGISTRY]/dataplane:latest
     container_name: provider-qna-connector-dataplane
     restart: always
     environment:
@@ -245,7 +245,7 @@ services:
       - mvd
 
   manufacturing-connector-controlplane:
-    image: localhost:5000/controlplane:latest
+    image: [INSERT DOCKER REGISTRY]/controlplane:latest
     container_name: provider-manufacturing-connector-controlplane
     restart: always
     environment:
@@ -305,7 +305,7 @@ services:
       - mvd
 
   manufacturing-connector-dataplane:
-    image: localhost:5000/dataplane:latest
+    image: [INSERT DOCKER REGISTRY]/dataplane:latest
     container_name: provider-manufacturing-connector-dataplane
     restart: always
     environment:
