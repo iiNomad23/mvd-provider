@@ -6,7 +6,7 @@ Its purpose is to demonstrate a simple deployment of dataspace components using 
 
 ## Using the repository as template for a deployment
 To use the repository as a template there is a dedicated template branch that can be used: [https://github.com/Smightym8/mvd-provider/tree/template](https://github.com/Smightym8/mvd-provider/tree/template).
-This repository's deployment setup includes two other repositories. **Either the Docker Compose or the Kubernetes deployment is mandatory for a functioning data space.**
+This repository's deployment setup includes two other repositories. **In addition to this template, either the Docker Compose or the Kubernetes deployment of the consumer is mandatory for a functioning data space.**
 The other two repositories also have a template branch that can be used as a starting point:
 - [Consumer Docker Compose Deployment Template](https://github.com/Smightym8/mvd-consumer/tree/template)
 - [Consumer Kubernetes Deployment Template](https://github.com/Smightym8/mvd-consumer-kubernetes/tree/template)
