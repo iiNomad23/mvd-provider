@@ -26,6 +26,7 @@ In the following the Server that hosts the deployed dataspace components is refe
 - A Docker Registry to push the Docker images of the dataspace components to.
 - A server with Docker and Docker Compose installed to host the dataspace components.
 - A build server with JDK 17 and Docker installed for building the components and Docker images.
+- [Newman](https://learning.postman.com/docs/collections/using-newman-cli/installing-running-newman/) needs to be installed to execute the script `deployment/scripts/seed.sh`.
 
 ### Deployment Steps for the Provider
 1. Copy the template branch of this repository.
