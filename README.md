@@ -16,6 +16,10 @@ It acts as an overview of how the deployment can look like.
 
 ![Overview of the Deployment](deployment-server-setup.png "Overview of the Deployment")
 
+The server setup, including the DApp, was achieved as follows:
+
+![Overview of the deployment including the DApp](deployment-server-setup-dapp.png "Overview of the deployment including the DApp")
+
 ### Prerequisites for a deployment
 In the following the Server that hosts the deployed dataspace components is referred to as Application Server.
 
